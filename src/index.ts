@@ -1,6 +1,7 @@
-import { fetch, match } from './tool'
+import { contentIter } from './producer'
 
-fetch('http://cs.hitsz.edu.cn/szll/qzjs.htm')
-    .then(res => match(res, 'div', ['teacher-box']))
-    .then(res => match(res[0], 'dl'))
-    .then(res => console.log(res))
+const contentUrlProducer = contentIter()
+
+contentUrlProducer.next().then(res => console.log((res.value)))
+contentUrlProducer.next().then(res => console.log((res.value)))
+contentUrlProducer.next().then(res => console.log((res.value)))
