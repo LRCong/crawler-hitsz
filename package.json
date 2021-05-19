@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@cloudbase/node-sdk": "^2.5.2",
     "@types/node": "^15.0.3",
     "jsdom": "^16.5.3",
     "rimraf": "^3.0.2"

@@ -1,7 +1,20 @@
+
+import { init } from '@cloudbase/node-sdk'
 import { contentIter } from './producer'
+import { env } from './env.config'
 
-const contentUrlProducer = contentIter()
+const mainWoker = async () => {
+    const contentUrlProducer = contentIter()
+    const collection = init(env).database().collection('professor')
 
-contentUrlProducer.next().then(res => console.log((res.value)))
-contentUrlProducer.next().then(res => console.log((res.value)))
-contentUrlProducer.next().then(res => console.log((res.value)))
+    while (true) {
+        const thisTemp = contentUrlProducer.next()
+
+        if ((await thisTemp).done) break
+
+        await collection.add((await thisTemp).value)
+        console.log(((await thisTemp).value as any)['名字'])
+    }
+}
+
+mainWoker()

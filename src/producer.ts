@@ -5,16 +5,20 @@ const indexUrlIter = function* () {
     const base = 'http://cs.hitsz.edu.cn/szll/qzjs.htm';
 
     let i = 0;
-    while (true)
+    while (true) {
         yield i === 0 ? base : base.replace(/.htm$/g, `/${i}.htm`);
+        i++;
+    }
 };
 
 const baseInfoIter = async function* () {
     const indexUrlProducer = indexUrlIter();
 
     while (true) {
-        const content = await fetch(indexUrlProducer.next().value);
-        if (content === '404') {
+        let content;
+        try {
+            content = await fetch(indexUrlProducer.next().value);
+        } catch (e) {
             return { info: 'no more' };
         }
         const { document } = (new JSDOM(content)).window;
